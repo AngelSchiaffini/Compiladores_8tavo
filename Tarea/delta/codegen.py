@@ -53,3 +53,21 @@ class CodeGenerationVisitor(PTNodeVisitor):
         if children[0] == 'true':
             return '    i32.const 1\n'
         return '    i32.const 0\n'
+    
+
+    def visit_base(self, node, children):
+        hex = {
+            A: 10,
+            B: 11,
+            C: 12,
+            D: 13,
+            E: 14,
+            F: 15
+        }
+        for i in range(len(children)):
+            val = 0
+            key = children[i]
+            for key in hex:
+                val += key * (16 ** i)
+        return f'i32.const {valor}'
+    

@@ -8,4 +8,4 @@ multiplicative = primary(('*' / '/' / '%') primary) *
 primary = decimal / boolean / base
 decimal = r'\d+'
 boolean = 'true' / 'false'
-base = r'[#][b](0|1)|[#][o][0-7]+|[#][f](\d|[A-f])+'
+base = r'[#][b][01]|[#][o][0-7]+|[#][f][0-9A-f]+'
