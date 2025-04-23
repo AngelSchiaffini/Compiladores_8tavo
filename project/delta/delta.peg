@@ -1,0 +1,10 @@
+//#Gramatica del lenguaje delta
+
+comment = r'[/][/].*|[/][*](.|\n)*?[*][/]'
+
+program = expression EOF
+expression = multiplicative (('+' / '-') multiplicative)*
+multiplicative = primary(('*' / '/' / '%') primary) *
+primary = decimal / boolean
+decimal = r'\d+'
+boolean = 'true' / 'false'
