@@ -1,4 +1,5 @@
 from arpeggio import PTNodeVisitor #type:ignore
+from collections import deque #Queu de doble entrada
 
 
 class CodeGenerationVisitor(PTNodeVisitor):
@@ -43,6 +44,21 @@ class CodeGenerationVisitor(PTNodeVisitor):
                     result.append('    i32.rem_s\n') #residuo con signo
         return ''.join(result)
 
+    def visit_unary(self, node, children):
+        result = deque()
+        result.append(children[-1])
+        for operator in children[-2::-1]:
+            match operator:
+                case '+':
+                    ...#Do nothing
+                case '-':
+                    result.appendleft('    i32.const 0\n')
+                    result.append('    i32.sub\n')
+                case '!':
+                    result.append('    i32.eqz\n')
+
+        return ''.join(list(result))
+    
     def visit_primary(self, node, children):
         return children[0]
 
@@ -53,3 +69,6 @@ class CodeGenerationVisitor(PTNodeVisitor):
         if children[0] == 'true':
             return '    i32.const 1\n'
         return '    i32.const 0\n'
+    
+    def visit_parenthesis(self, node, children):
+        return children[0]
